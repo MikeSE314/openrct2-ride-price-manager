@@ -170,4 +170,13 @@ function makeAllRidesFreeButton(y: number): ButtonWidget {
   );
 }
 
+function SumAllRides(y: number): ButtonWidget {
+  return makeFullWidthButton(
+    y,
+    'Alerts with the combined total of rides in the park.',
+    'Calculate Total',
+    RidePrices.notifyCombinedTotal,
+  );
+}
+
 export default showWindow;

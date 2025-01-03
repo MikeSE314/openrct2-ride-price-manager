@@ -24,6 +24,12 @@ export default class RidePrices {
     map.rides.map((ride: Ride) => RidePrices.setRidePrice(ride, 0));
   }
 
+  public static notifyCombinedTotal(): void {
+    var totalPriceInDimes = map.rides.reduce((total: number, ride: Ride) => total + RidePrices.calculateRidePrice(ride));
+    var text = "Total ride price: " + totalPriceInDimes / 10;
+    park.postMessage({type: "blank", text: text});
+  }
+
   private static setRidePrice(ride: Ride, priceInDimes?: number): void {
     if (!RidePrices.isOpenAndRatedRide(ride)) {
       return;
