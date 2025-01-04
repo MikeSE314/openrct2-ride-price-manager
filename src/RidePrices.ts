@@ -25,13 +25,15 @@ export default class RidePrices {
   }
 
   public static notifyCombinedTotal(): void {
-    var totalPriceInDimes = map.rides.reduce((total: number, ride: Ride) => total + RidePrices.calculateRidePrice(ride));
+    let totalPriceInDimes = map.rides.reduce(
+      (total: number, ride: Ride) => total + RidePrices.calculateRidePrice(ride), 0,
+    );
     if (config.getLazyTaxFactor() > 0) {
       totalPriceInDimes *= (1 - config.getLazyTaxFactor());
       totalPriceInDimes = Math.floor(totalPriceInDimes);
     }
-    var text = "Total ride price: " + totalPriceInDimes / 10;
-    park.postMessage({type: "blank", text: text});
+    const text = `Total ride price: $${totalPriceInDimes / 10}0`;
+    park.postMessage({ type: 'blank', text });
   }
 
   private static setRidePrice(ride: Ride, priceInDimes?: number): void {

@@ -17,7 +17,7 @@ function showWindow(): void {
   const windowDesc: WindowDesc = {
     classification: windowTag,
     width: 240,
-    height: 159,
+    height: 184,
     title: 'Ride Price Manager',
     widgets: [
       makePluginEnabledCheckbox(20),
@@ -28,6 +28,7 @@ function showWindow(): void {
       makeUnboundPriceCheckbox(92),
       makeRecalculateButton(107),
       makeAllRidesFreeButton(132),
+      sumAllRides(157),
     ],
   };
   ui.openWindow(windowDesc);
@@ -39,7 +40,7 @@ function makeCheckbox(
   text: string,
   isChecked: boolean,
   onChange: (isChecked: boolean) => void,
-): CheckboxWidget {
+): CheckboxDesc {
   return {
     type: 'checkbox',
     x: 5,
@@ -53,7 +54,7 @@ function makeCheckbox(
   };
 }
 
-function makeIgnoreFreeRidesCheckbox(y: number): CheckboxWidget {
+function makeIgnoreFreeRidesCheckbox(y: number): CheckboxDesc {
   return makeCheckbox(
     y,
     'Prevent the plugin from affecting rides that are currently free. '
@@ -66,7 +67,7 @@ function makeIgnoreFreeRidesCheckbox(y: number): CheckboxWidget {
   );
 }
 
-function makeGoodValueCheckbox(y: number): CheckboxWidget {
+function makeGoodValueCheckbox(y: number): CheckboxDesc {
   return makeCheckbox(
     y,
     'Charge 1/4 as much so guests think your rides are good value',
@@ -78,7 +79,7 @@ function makeGoodValueCheckbox(y: number): CheckboxWidget {
   );
 }
 
-function makeLazyTaxLabel(y: number): LabelWidget {
+function makeLazyTaxLabel(y: number): LabelDesc {
   return {
     type: 'label',
     x: 5,
@@ -87,11 +88,10 @@ function makeLazyTaxLabel(y: number): LabelWidget {
     height: 10,
     tooltip: 'Reduce prices to compensate for the assistance the plugin gives',
     text: `${lQuote}Lazy Tax${rQuote}`,
-    onChange: () => { },
   };
 }
 
-function makeLazyTaxDropdown(y: number): DropdownWidget {
+function makeLazyTaxDropdown(y: number): DropdownDesc {
   return {
     type: 'dropdown',
     x: 72,
@@ -108,7 +108,7 @@ function makeLazyTaxDropdown(y: number): DropdownWidget {
   };
 }
 
-function makePluginEnabledCheckbox(y: number): CheckboxWidget {
+function makePluginEnabledCheckbox(y: number): CheckboxDesc {
   return makeCheckbox(
     y,
     'Unchecking completely disables the plugin',
@@ -120,7 +120,7 @@ function makePluginEnabledCheckbox(y: number): CheckboxWidget {
   );
 }
 
-function makeUnboundPriceCheckbox(y: number): CheckboxWidget {
+function makeUnboundPriceCheckbox(y: number): CheckboxDesc {
   return makeCheckbox(
     y,
     'Via the UI, the max price is $20.00 - Enable this to allow the plugin to set higher prices',
@@ -137,7 +137,7 @@ function makeFullWidthButton(
   tooltip: string,
   text: string,
   onClick: () => void,
-): ButtonWidget {
+): ButtonDesc {
   // @ts-ignore
   return {
     type: 'button',
@@ -152,7 +152,7 @@ function makeFullWidthButton(
   };
 }
 
-function makeRecalculateButton(y: number): ButtonWidget {
+function makeRecalculateButton(y: number): ButtonDesc {
   return makeFullWidthButton(
     y,
     'Immediately set the price for all rides, overriding the "Ignore Free" preference',
@@ -161,7 +161,7 @@ function makeRecalculateButton(y: number): ButtonWidget {
   );
 }
 
-function makeAllRidesFreeButton(y: number): ButtonWidget {
+function makeAllRidesFreeButton(y: number): ButtonDesc {
   return makeFullWidthButton(
     y,
     'Immediately make all rides free.',
@@ -170,7 +170,7 @@ function makeAllRidesFreeButton(y: number): ButtonWidget {
   );
 }
 
-function SumAllRides(y: number): ButtonWidget {
+function sumAllRides(y: number): ButtonDesc {
   return makeFullWidthButton(
     y,
     'Alerts with the combined total of rides in the park.',
